@@ -6,20 +6,11 @@
     <PackageProjectUrl>https://github.com/tpkelly/ThiefData</PackageProjectUrl>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <IsPackable>false</IsPackable>
-    <PackageIcon>icon.png</PackageIcon>
+    <PackageIcon></PackageIcon>
   </PropertyGroup>
-
   <ItemGroup>
-    <Content Include="..\Data\icon.png">
+    <Content Include="images\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="$(OutputPath)\icon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 </Project>

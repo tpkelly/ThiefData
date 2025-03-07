@@ -3,6 +3,7 @@
   "Name": "Thief Data",
   "Punchline": "Encounter data for Thief Maps",
   "Description": "An FFXIV plugin to collate encounter data during Thief map runs",
+  "IconUrl": "https://raw.githubusercontent.com/tpkelly/ThiefData/master/Data/icon.png",
   "ApplicableVersion": "any",
   "Tags": [
     "data",
