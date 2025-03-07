@@ -1,0 +1,12 @@
+{
+  "Author": "kazenone",
+  "Name": "Thief Data",
+  "Punchline": "Encounter data for Thief Maps",
+  "Description": "An FFXIV plugin to collate encounter data during Thief map runs",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "data",
+    "plugin",
+    "maps"
+  ]
+}
