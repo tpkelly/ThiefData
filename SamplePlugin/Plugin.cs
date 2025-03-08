@@ -1,7 +1,6 @@
 using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using System.IO;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
 using ThiefData.Windows;
@@ -23,9 +22,17 @@ public sealed class Plugin : IDalamudPlugin
     private MainWindow MainWindow { get; init; }
     private ChatHandler chatHandler { get; init; }
 
-    public Plugin(IChatGui chat)
+    public Plugin(IChatGui chat, IPartyList partylist)
     {
-        chatHandler = new ChatHandler();
+        /*
+        // Fetch the spreadsheet
+        var request = sheets.Spreadsheets.Get("1JbUrucVnqf4_z9DrOrzQmEYSyFraKdac7iTZho1AxjM");
+        //var request = sheets.Spreadsheets.Values.Get("1JbUrucVnqf4_z9DrOrzQmEYSyFraKdac7iTZho1AxjM", "'Thief Maps'!A1:AF999");
+        var response = request.Execute();
+        var sheet = response.Sheets.First(x => x.Properties.Title == "Thief Maps");
+        */
+
+        chatHandler = new ChatHandler(partylist);
         MainWindow = new MainWindow(this, chatHandler);
 
         WindowSystem.AddWindow(MainWindow);

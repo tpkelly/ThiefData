@@ -1,18 +1,29 @@
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Plugin.Services;
+using System;
+using System.Linq;
 
 namespace ThiefData.Windows
 {
     public class ChatHandler
     {
+        private readonly IPartyList partylist;
+        public ChatHandler(IPartyList partyList)
+        {
+            partylist = partyList;
+        }
+
         public string LastMessage { get; private set; } = "";
 
         public void ChatMessage(XivChatType type, int timestamp, SeString sender, SeString message)
         {
-            if (type != XivChatType.SystemMessage)
+            if (type != XivChatType.SystemMessage && (int)type < 200) // Some special system messages have crazy high IDs
             {
                 return;
             }
+
+            var coord = "";
 
             switch (message.TextValue)
             {
@@ -40,6 +51,13 @@ namespace ThiefData.Windows
 
                 // Left/Right/Mid
                 case string direction when direction.Contains("hand on the gate"):
+                    var xCoord = partylist.First(x => direction.StartsWith(x.Name.TextValue)).Position.X;
+                    coord = xCoord switch
+                    {
+                        < -8f => "Left",
+                        > 8f => "Right",
+                        _ => "Mid"
+                    };
                     break;
 
                 // Loot
@@ -55,9 +73,11 @@ namespace ThiefData.Windows
                     break;
                 case "A Namazu stickywhisker appears!":
                     break;
+
+                default: return;
             }
 
-            LastMessage = message.TextValue;
+            LastMessage = $"{message.TextValue}{Environment.NewLine}{coord}";
         }
     }
 }

@@ -19,7 +19,7 @@ public class MainWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(375, 330),
+            MinimumSize = new Vector2(200, 200),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
@@ -39,7 +39,7 @@ public class MainWindow : Window, IDisposable
         // Normally a BeginChild() would have to be followed by an unconditional EndChild(),
         // ImRaii takes care of this after the scope ends.
         // This works for all ImGui functions that require specific handling, examples are BeginTable() or Indent().
-        using (var child = ImRaii.Child("SomeChildWithAScrollbar", Vector2.Zero, true))
+        using (var child = ImRaii.Child("DebugWindowLog", Vector2.Zero, true))
         {
             // Check if this child is drawing
             if (child.Success)
@@ -52,9 +52,9 @@ public class MainWindow : Window, IDisposable
                 }
 
                 var territoryId = Plugin.ClientState.TerritoryType;
-                if (territoryId != 725) // Or 712?
+                if (territoryId != 725)
                 {
-                    ImGui.TextUnformatted($"Not currently in Hidden Canals. Reading as {territoryId}");
+                    ImGui.TextUnformatted("Not currently in Hidden Canals.");
                     return;
                 }
                 ImGui.TextUnformatted(chatHandler.LastMessage);
