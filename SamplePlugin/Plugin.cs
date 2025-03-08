@@ -24,16 +24,9 @@ public sealed class Plugin : IDalamudPlugin
 
     public Plugin(IChatGui chat, IPartyList partylist)
     {
-        /*
-        // Fetch the spreadsheet
-        var request = sheets.Spreadsheets.Get("1JbUrucVnqf4_z9DrOrzQmEYSyFraKdac7iTZho1AxjM");
-        //var request = sheets.Spreadsheets.Values.Get("1JbUrucVnqf4_z9DrOrzQmEYSyFraKdac7iTZho1AxjM", "'Thief Maps'!A1:AF999");
-        var response = request.Execute();
-        var sheet = response.Sheets.First(x => x.Properties.Title == "Thief Maps");
-        */
-
-        chatHandler = new ChatHandler(partylist);
-        MainWindow = new MainWindow(this, chatHandler);
+        var spreadsheet = new SpreadsheetHandler();
+        chatHandler = new ChatHandler(partylist, spreadsheet);
+        MainWindow = new MainWindow(this, chatHandler, spreadsheet);
 
         WindowSystem.AddWindow(MainWindow);
 

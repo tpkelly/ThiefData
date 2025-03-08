@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -10,11 +9,13 @@ public class MainWindow : Window, IDisposable
 {
     private readonly Plugin plugin;
     private readonly ChatHandler chatHandler;
+    private readonly SpreadsheetHandler spreadsheet;
+
 
     // We give this window a hidden ID using ##
     // So that the user will see "My Amazing Window" as window title,
     // but for ImGui the ID is "My Amazing Window##With a hidden ID"
-    public MainWindow(Plugin plugin, ChatHandler chat)
+    public MainWindow(Plugin plugin, ChatHandler chat, SpreadsheetHandler sheet)
         : base("Debug Info", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         SizeConstraints = new WindowSizeConstraints
@@ -25,6 +26,7 @@ public class MainWindow : Window, IDisposable
 
         chatHandler = chat;
         this.plugin = plugin;
+        spreadsheet = sheet;
     }
 
     public void Dispose() { }
@@ -36,29 +38,22 @@ public class MainWindow : Window, IDisposable
         // provide through our bindings, leading to a Crash to Desktop.
         // Replacements can be found in the ImGuiHelpers Class
 
-        // Normally a BeginChild() would have to be followed by an unconditional EndChild(),
-        // ImRaii takes care of this after the scope ends.
-        // This works for all ImGui functions that require specific handling, examples are BeginTable() or Indent().
-        using (var child = ImRaii.Child("DebugWindowLog", Vector2.Zero, true))
+        var localPlayer = Plugin.ClientState.LocalPlayer;
+        if (localPlayer == null)
         {
-            // Check if this child is drawing
-            if (child.Success)
-            {
-                var localPlayer = Plugin.ClientState.LocalPlayer;
-                if (localPlayer == null)
-                {
-                    ImGui.TextUnformatted("Our local player is currently not loaded.");
-                    return;
-                }
-
-                var territoryId = Plugin.ClientState.TerritoryType;
-                if (territoryId != 725)
-                {
-                    ImGui.TextUnformatted("Not currently in Hidden Canals.");
-                    return;
-                }
-                ImGui.TextUnformatted(chatHandler.LastMessage);
-            }
+            ImGui.TextUnformatted("Our local player is currently not loaded.");
+            return;
         }
+
+        ImGui.TextUnformatted($"Found {spreadsheet.CurrentRow} rows");
+        ImGui.TextUnformatted($"Latest room: {spreadsheet.CurrentRoom}");
+
+        var territoryId = Plugin.ClientState.TerritoryType;
+        if (territoryId != 725)
+        {
+            ImGui.TextUnformatted("Not currently in Hidden Canals.");
+            return;
+        }
+        ImGui.TextUnformatted(chatHandler.LastMessage);
     }
 }

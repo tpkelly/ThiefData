@@ -9,9 +9,11 @@ namespace ThiefData.Windows
     public class ChatHandler
     {
         private readonly IPartyList partylist;
-        public ChatHandler(IPartyList partyList)
+        private readonly ISpreadsheetHandler spreadsheet;
+        public ChatHandler(IPartyList partyList, ISpreadsheetHandler sheet)
         {
             partylist = partyList;
+            spreadsheet = sheet;
         }
 
         public string LastMessage { get; private set; } = "";
