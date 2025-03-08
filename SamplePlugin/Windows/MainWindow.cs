@@ -54,6 +54,6 @@ public class MainWindow : Window, IDisposable
             ImGui.TextUnformatted("Not currently in Hidden Canals.");
             return;
         }
-        ImGui.TextUnformatted(chatHandler.LastMessage);
+        ImGui.TextUnformatted(spreadsheet.ToString());
     }
 }
