@@ -92,6 +92,11 @@ namespace ThiefData.Windows
                     spreadsheet.UpdateBonusMob("Namazu");
                     break;
 
+                // Enemies
+                case string enemy when enemy.Contains(" defeats the ") || enemy.Contains(" defeat the "):
+                    spreadsheet.UpdateMobType(enemy.Split(" the ")[1].TrimEnd('.'));
+                    break;
+
                 default: return;
             }
         }

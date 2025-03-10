@@ -3,6 +3,7 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource.UpdateRequest;
 
@@ -71,65 +72,34 @@ namespace ThiefData
         }
 
         private static readonly string[] MobColumns = ["C", "H", "M", "R", "W", "AB"];
+        private static readonly IDictionary<string, string> MobGroupNames = new Dictionary<string, string>
+        {
+            { "canal fluturini", "Fluturini" },
+            { "canal halgai", "Halgai" },
+            { "canal mossling", "Mossling" },
+            { "canal sheep", "Sheep" },
+            { "canal scorpion", "Scorpion" },
+            { "canal wraith", "Wraith" },
+            { "canal minotaur", "Minotaur" },
+            { "canal rockfin", "Deep-sea Fish" },
+            { "canal craklaw", "Hard-shells" },
+            { "canal bloodglider", "Moths" },
+            { "canal dhruva", "Wind Creatures" }, // Skip the Canal Fans because they come up in another mob set
+            { "canal soblyn", "Earth Creatures" },
+            { "canal anala", "Mixed Elementals" },
+            { "canal gagana", "Safari" },
+            { "canal bombfish", "Water Creatures" },
+            { "canal chuluu", "Golems" },
+            { "canal arachne", "Spiders" },
+            { "canal shuck", "Ghosts" },
+            { "canal grenade", "Ice Creatures" },
+            { "canal belladonna", "Morbol" },
+        };
         public void UpdateMobType(string mobName)
         {
             if (CurrentRoom == 7) { return; }
 
-            var mobGroup = "";
-            switch (mobName)
-            {
-                case "Canal Fluturini":
-                case "Canal Halgai":
-                case "Canal Mossling":
-                case "Canal Sheep":
-                case "Canal Scorpion":
-                case "Canal Wraith":
-                case "Canal Minotaur":
-                    mobGroup = mobName.Replace("Canal ", "");
-                    break;
-
-                case "Canal Rockfin":
-                    mobGroup = "Deep-sea Fish";
-                    break;
-                case "Canal Craklaw":
-                    mobGroup = "Hard-shells";
-                    break;
-                case "Canal Bloodglider":
-                    mobGroup = "Moths";
-                    break;
-                case "Canal Dhruva": // Skip the Canal Fans because they come up in another mob set
-                    mobGroup = "Wind Creatures";
-                    break;
-                case "Canal Soblyn":
-                    mobGroup = "Earth Creatures";
-                    break;
-                case "Canal Anala":
-                    mobGroup = "Mixed Elementals";
-                    break;
-                case "Canal Gagana":
-                    mobGroup = "Safari";
-                    break;
-                case "Canal Bombfish":
-                    mobGroup = "Water Creatures";
-                    break;
-                case "Canal Chuluu":
-                    mobGroup = "Golems";
-                    break;
-                case "Canal Arachne":
-                    mobGroup = "Spiders";
-                    break;
-                case "Canal Shuck":
-                    mobGroup = "Ghosts";
-                    break;
-                case "Canal Grenade":
-                    mobGroup = "Ice Creatures";
-                    break;
-                case "Canal Belladonna":
-                    mobGroup = "Morbol";
-                    break;
-
-                default: return;
-            }
+            if (!MobGroupNames.TryGetValue(mobName, out var mobGroup)) { return; }
 
             lastEnemy = mobGroup;
             SendUpdate(MobColumns, mobGroup);
