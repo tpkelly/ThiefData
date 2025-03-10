@@ -99,7 +99,7 @@ namespace ThiefData
         {
             if (CurrentRoom == 7) { return; }
 
-            if (!MobGroupNames.TryGetValue(mobName, out var mobGroup)) { return; }
+            if (!MobGroupNames.TryGetValue(mobName.ToLower(), out var mobGroup)) { return; }
 
             lastEnemy = mobGroup;
             SendUpdate(MobColumns, mobGroup);
@@ -129,45 +129,45 @@ namespace ThiefData
             if (CurrentRoom == 7) { return; }
 
             var lootParsed = "";
-            switch(loot)
+            switch(loot.ToLower())
             {
-                case string a when a.Contains("Birdbath"):
+                case string a when a.Contains("birdbath"):
                     lootParsed = "Birdbath";
                     break;
-                case string a when a.Contains("Capybara Pup"):
+                case string a when a.Contains("capybara pup"):
                     lootParsed = "Capybara Pup";
                     break;
-                case string a when a.Contains("Cloth Cointe"):
+                case string a when a.Contains("cloth cointe"):
                     lootParsed = "Cloth Cointe";
                     break;
-                case string a when a.Contains("Crimson Sunrise"):
+                case string a when a.Contains("crimson sunrise"):
                     lootParsed = "Crimson Sunrise";
                     break;
-                case string a when a.Contains("Crimson Sunset"):
+                case string a when a.Contains("crimson sunset"):
                     lootParsed = "Crimson Sunset";
                     break;
-                case string a when a.Contains("Gold Whisker"):
+                case string a when a.Contains("gold whisker"):
                     lootParsed = "Gold Whisker";
                     break;
-                case string a when a.Contains("Hedgehoglet"):
+                case string a when a.Contains("hedgehoglet"):
                     lootParsed = "Hedgehoglet";
                     break;
-                case string a when a.Contains("Mother's Pride"):
+                case string a when a.Contains("mother's pride"):
                     lootParsed = "Mother's Pride";
                     break;
-                case string a when a.Contains("Plush Pile"):
+                case string a when a.Contains("plush pile"):
                     lootParsed = "Plush Pile";
                     break;
-                case string a when a.Contains("Scholarly Certitude"):
+                case string a when a.Contains("scholarly certitude"):
                     lootParsed = "Scholarly Certitude";
                     break;
-                case string a when a.Contains("Waterproof Cloth"):
+                case string a when a.Contains("waterproof cloth"):
                     lootParsed = "Waterproof Cloth";
                     break;
-                case string a when a.Contains("Whisperfine Fleece"):
+                case string a when a.Contains("whisperfine fleece"):
                     lootParsed = "Whisperfine Fleece";
                     break;
-                case string a when a.Contains("Wind-up Matanga"):
+                case string a when a.Contains("wind-up matanga"):
                     lootParsed = "Wind-up Matanga";
                     break;
 

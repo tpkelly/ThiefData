@@ -47,6 +47,7 @@ public class MainWindow : Window, IDisposable
 
         ImGui.TextUnformatted($"Found {spreadsheet.CurrentRow} rows");
         ImGui.TextUnformatted($"Latest room: {spreadsheet.CurrentRoom}");
+        ImGui.TextUnformatted(spreadsheet.ToString());
 
         var territoryId = Plugin.ClientState.TerritoryType;
         if (territoryId != 725)
@@ -54,6 +55,5 @@ public class MainWindow : Window, IDisposable
             ImGui.TextUnformatted("Not currently in Hidden Canals.");
             return;
         }
-        ImGui.TextUnformatted(spreadsheet.ToString());
     }
 }

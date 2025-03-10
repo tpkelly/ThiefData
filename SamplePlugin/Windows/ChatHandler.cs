@@ -1,9 +1,6 @@
-using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
-using System;
 using System.Linq;
 
 namespace ThiefData.Windows
@@ -20,6 +17,12 @@ namespace ThiefData.Windows
 
         public void ChatMessage(XivChatType type, int timestamp, SeString sender, SeString message)
         {
+            var territoryId = Plugin.ClientState.TerritoryType;
+            if (territoryId != 725)
+            {
+                return;
+            }
+            
             if (type != XivChatType.SystemMessage && (int)type < 200 && type != XivChatType.Echo) // Some special system messages have crazy high IDs
             {
                 return;
