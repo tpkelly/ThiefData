@@ -28,11 +28,10 @@ namespace ThiefData.Windows
                 return;
             }
 
-            var coord = "";
-
             switch (message.TextValue)
             {
                 // Door numbers
+                case "The Lost Canals of Uznair has begun.": // New entry
                 case "The Hidden Canals of Uznair has begun.": // New entry
                     spreadsheet.UpdateRoom(1);
                     break;
@@ -63,17 +62,13 @@ namespace ThiefData.Windows
                     break;
 
                 // Left/Right/Mid
+                case "The Hidden Canals of Uznair has ended.":
+                    spreadsheet.UpdateDoor(Plugin.ClientState.LocalPlayer?.Position.X);
+                    break;
                 case string direction when direction.Contains("hand on the gate"):
-                    //TODO: Deal with "you"
                     var xCoord = partylist.FirstOrDefault(x => direction.StartsWith(x.Name.TextValue))?.Position.X
                         ?? Plugin.ClientState.LocalPlayer?.Position.X;
-                    coord = xCoord switch
-                    {
-                        < -8f => "Left",
-                        > 8f => "Right",
-                        _ => "Mid"
-                    };
-                    spreadsheet.UpdateDoor(coord);
+                    spreadsheet.UpdateDoor(xCoord);
                     break;
 
                 // Loot

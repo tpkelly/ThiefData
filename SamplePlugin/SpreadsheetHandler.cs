@@ -56,7 +56,11 @@ namespace ThiefData
                 CurrentRow++;
                 range = new ValueRange { Values = [[DateTime.Today.ToString("M/d/yyyy"), room]], Range = $"'Thief Maps'!A{CurrentRow}:B{CurrentRow}" };
             }
-            
+            else if (lastDoor == "")
+            {
+                UpdateDoor(Plugin.ClientState.LocalPlayer.Position.X);
+            }
+
             // Reset the room
             CurrentRoom = room;
             lastEnemy = "";
@@ -92,7 +96,9 @@ namespace ThiefData
             { "canal chuluu", "Golems" },
             { "canal arachne", "Spiders" },
             { "canal shuck", "Ghosts" },
+            { "canal tengu", "Living Armour" },
             { "canal grenade", "Ice Creatures" },
+            { "canal treant", "Treant" },
             { "canal belladonna", "Morbol" },
         };
         public void UpdateMobType(string mobName)
@@ -179,12 +185,24 @@ namespace ThiefData
         }
 
         private static readonly string[] DoorColumns = ["F", "K", "P", "U", "Z", "AE"];
-        public void UpdateDoor(string door)
+        public void UpdateDoor(float? doorPos)
         {
             if (lastBonusMob == "")
             {
                 UpdateBonusMob("No");
             }
+
+            if (lastDoor != "")
+            {
+                return;
+            }
+
+            var door = doorPos switch
+            {
+                < -8f => "Left",
+                > 8f => "Right",
+                _ => "Mid"
+            };
 
             lastDoor = door;
             SendUpdate(DoorColumns, door);
