@@ -29,7 +29,7 @@ public sealed class Plugin : IDalamudPlugin
         MainWindow = new MainWindow(this, chatHandler, spreadsheet);
 
         WindowSystem.AddWindow(MainWindow);
-        MainWindow.Toggle(); // Show initially
+        //MainWindow.Toggle(); // Show initially
 
         CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
